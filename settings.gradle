@@ -1,0 +1,17 @@
+rootProject.name = 'super-module'
+
+include 'api'
+include 'api:api-1-server'
+findProject(':api:api-1-server')?.name = 'api-1-server'
+include 'api:api-2-server'
+findProject(':api:api-2-server')?.name = 'api-2-server'
+include 'adapter'
+include 'adapter:kafka'
+findProject(':adapter:kafka')?.name = 'kafka'
+include 'usecase'
+include 'usecase:sample-usecase'
+findProject(':usecase:sample-usecase')?.name = 'sample-usecase'
+include 'worker'
+include 'worker:auto-inspection-worker'
+findProject(':worker:auto-inspection-worker')?.name = 'auto-inspection-worker'
+
