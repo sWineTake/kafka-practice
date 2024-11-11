@@ -14,4 +14,8 @@ findProject(':usecase:sample-usecase')?.name = 'sample-usecase'
 include 'worker'
 include 'worker:auto-inspection-worker'
 findProject(':worker:auto-inspection-worker')?.name = 'auto-inspection-worker'
+include 'api:producer-api'
+findProject(':api:producer-api')?.name = 'producer-api'
+include 'usecase:producer-usecase'
+findProject(':usecase:producer-usecase')?.name = 'producer-usecase'
 
