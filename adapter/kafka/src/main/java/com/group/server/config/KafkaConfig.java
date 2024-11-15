@@ -105,14 +105,14 @@ public class KafkaConfig {
 		return factory;
 	}
 
-	// 재시도 케이스 2번
+
 	private BackOff exponetialBackOff() {
 		ExponentialBackOff backOff = new ExponentialBackOff(1000L, 2L); // 1초 간격으로 시작해서 2배씩 간격이 증가
 		// 최대 10초까지만 증가
 		// backOff.setMaxElapsedTime(10000L);
 
 		// 최대 실행 횟수 지정
-		backOff.setMaxAttempts(2);
+		backOff.setMaxAttempts(3);
 		return backOff;
 	}
 

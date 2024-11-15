@@ -18,4 +18,6 @@ include 'api:producer-api'
 findProject(':api:producer-api')?.name = 'producer-api'
 include 'usecase:producer-usecase'
 findProject(':usecase:producer-usecase')?.name = 'producer-usecase'
+include 'adapter:mysql'
+findProject(':adapter:mysql')?.name = 'mysql'
 
