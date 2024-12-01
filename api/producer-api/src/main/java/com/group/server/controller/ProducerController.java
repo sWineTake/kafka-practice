@@ -11,10 +11,14 @@ public class ProducerController {
 
 	private final ProducerService producerService;
 
+	@PostMapping("/api/v1.0/producer-outbox")
+	public void produceMessageWithOutBox() {
+		producerService.saveMessageWithOutBox("Hello Kafka");
+	}
+
 	@PostMapping("/api/v1.0/producer")
 	public void produceMessage() {
 		producerService.saveMessage("Hello Kafka");
 	}
-
 
 }

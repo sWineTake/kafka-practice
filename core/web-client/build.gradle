@@ -1,0 +1,9 @@
+plugins {
+    id 'java-library'  // 이 플러그인 추가
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.springframework/spring-webflux
+    implementation 'org.springframework:spring-webflux:6.1.15'
+
+}
