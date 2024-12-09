@@ -58,6 +58,10 @@ public class OutBoxMessageSender {
 			.whenComplete((result, ex) -> handleKafkaResult(message, topicName, ex, null));
 	}
 
+	public void sendWithDebezium(String message) {
+		saveOutBoxTable(message);
+	}
+
 	private CompletableFuture<SendResult<String, String>> sendMethodCreate(String message, String topicName) {
 		return kafkaTemplate.send(topicName, message);
 	}
@@ -72,6 +76,9 @@ public class OutBoxMessageSender {
 		return outBox;
 	}
 
+	/*
+	* 모든 재시도 후에 마지막에 한번으로 호출됨
+	* */
 	private void handleKafkaResult(String message, String topicName, Throwable ex, Runnable successCallback) {
 		if (ex == null) {
 			/* log.info(SUCCESS_MESSAGE_FORMAT, topicName, message); */

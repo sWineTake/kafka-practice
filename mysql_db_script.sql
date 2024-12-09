@@ -5,6 +5,7 @@ create table campus.out_box_table
 	send       tinyint(1) default 0 not null,
 	created_at datetime             not null
 );
+create index out_box_table_send_index on out_box_table (send);
 
 -- MySQL에서 binlog가 활성화되어 있는지 확인
 SHOW VARIABLES LIKE 'log_bin';

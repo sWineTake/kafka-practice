@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Slf4j
-@Service
+// @Service // 해당 주석 해지시 디비지움 연동
 @RequiredArgsConstructor
 public class DebeziumService implements InitializingBean, DisposableBean {
 

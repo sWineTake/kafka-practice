@@ -15,20 +15,20 @@ public class ConsumerComponent {
 		topics = {MY_CUSTOM_OUT_BOX_TOPIC},
 		groupId = "out-box-consumer-group-1",
 		containerFactory = "kafkaListenerContainerFactory",
-		concurrency = "3"
+		concurrency = "2" // 토픽 파티션 갯수 / 서버 갯수 = concurrency
 	)
 	public void outBoxConsumer(ConsumerRecord<String, String> message, Acknowledgment acknowledgment) {
 		System.out.println("[OUTBOX]****************************" + message.partition());
 		System.out.println(message.value());
 
-		// cas1. JsonParseException 발생 재시도 하지않음
+		// case1. JsonParseException 발생 재시도 하지않음
 		// throw new JsonParseException();
 
 		// case2. 그외는 재시도 시도
-		throw new IllegalArgumentException("Something happened!");
+		// throw new IllegalArgumentException("Something happened!");
 
 		// 수동으로 커밋
-		// acknowledgment.acknowledge();
+		acknowledgment.acknowledge();
 	}
 
 	@KafkaListener(

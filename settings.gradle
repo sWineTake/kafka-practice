@@ -19,4 +19,8 @@ findProject(':adapter:slack')?.name = 'slack'
 include 'core'
 include 'core:web-client'
 findProject(':core:web-client')?.name = 'web-client'
+include 'worker:batch-worker'
+findProject(':worker:batch-worker')?.name = 'batch-worker'
+include 'adapter:aws'
+findProject(':adapter:aws')?.name = 'aws'
 

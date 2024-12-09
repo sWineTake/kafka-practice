@@ -21,4 +21,9 @@ public class ProducerController {
 		producerService.saveMessage("Hello Kafka");
 	}
 
+	@PostMapping("/api/v1.0/producer-debezium")
+	public void produceMessageWithDebezium() {
+		producerService.saveMessageWithDebezium("Hello Kafka");
+	}
+
 }

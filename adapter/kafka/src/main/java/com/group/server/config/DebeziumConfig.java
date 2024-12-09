@@ -7,6 +7,7 @@ import io.debezium.engine.DebeziumEngine;
 import io.debezium.engine.format.Json;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -20,6 +21,7 @@ public class DebeziumConfig {
 
 	@Bean
 	public io.debezium.config.Configuration connectorConfiguration() {
+
 		return io.debezium.config.Configuration.create()
 			.with("name", "mysql-connector")
 			.with("connector.class", "io.debezium.connector.mysql.MySqlConnector")
@@ -28,20 +30,26 @@ public class DebeziumConfig {
 			.with("database.user", "myuser")
 			.with("database.password", "mypassword")
 			.with("database.server.id", "1")
-			.with("topic.prefix", "campus")  // database.server.name과 동일하게 설정
+			.with("topic.prefix", "campus")
 			.with("database.include.list", "campus")
 			.with("table.include.list", "campus.out_box_table")
-			.with("database.history.kafka.bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094")
-			.with("database.history.kafka.topic", Topic.MY_CUSTOM_OUT_BOX_TOPIC)
 
-			// Kafka 클러스터 설정
-			.with("bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094")
-			// Schema History 관련 설정
+			// 스키마 히스토리 설정 통합
 			.with("schema.history.internal", "io.debezium.storage.kafka.history.KafkaSchemaHistory")
 			.with("schema.history.internal.kafka.topic", "schema-changes.campus")
 			.with("schema.history.internal.kafka.bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094")
+
+			// 복구 관련 설정 추가
+			.with("schema.history.internal.recovery.attempts", "3")
+			.with("schema.history.internal.recovery.poll.interval.ms", "1000")
+
 			// offset 설정
+			.with("offset.storage", "org.apache.kafka.connect.storage.FileOffsetBackingStore")
 			.with("offset.storage.file.filename", "./offsets.dat")
+			.with("offset.flush.interval.ms", "1000")
+
+			// .with("database.server.id", serverId)  // 동적으로 설정된 server.id
+			// .with("group.id", "campus-group")      // 그룹 ID 추가
 
 			.build();
 	}
@@ -53,12 +61,6 @@ public class DebeziumConfig {
 			.notifying(this::handleChangeEvent)
 			.build();
 	}
-
-	/*
-		private void handleChangeEvent(ChangeEvent<String, String> event) {
-			log.info("Key = {}, Value = {}", event.key(), event.value());
-		}
-	*/
 
 	private void handleChangeEvent(ChangeEvent<String, String> event) {
 		try {
@@ -81,7 +83,8 @@ public class DebeziumConfig {
 						} else {
 							log.error("Failed to send message to topic: {}", Topic.MY_CUSTOM_OUT_BOX_TOPIC, ex);
 						}
-					});
+					}
+				);
 			}
 		} catch (Exception e) {
 			log.error("Error processing event: {}", e.getMessage(), e);

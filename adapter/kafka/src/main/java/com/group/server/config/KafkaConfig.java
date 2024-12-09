@@ -47,6 +47,10 @@ public class KafkaConfig {
 		props.put(ProducerConfig.ACKS_CONFIG, "-1");
 		// 프로듀서가 메시지에 고유 ID값을 넣음으로 중복 메세지 발행이 안되도록 하는설정
 		props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+		// 재시도 횟수 설정
+		props.put(ProducerConfig.RETRIES_CONFIG, 3);
+		// 재시도 대기 시간
+		props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1000);
 		return new DefaultKafkaProducerFactory<>(props);
 	}
 

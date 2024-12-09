@@ -34,4 +34,14 @@ public class ProducerService {
 		// case1. 강제 에러 발생 : 에러에 상관없이 카프카 메세지를 보냄
 		// throw new RuntimeException("강제 에러 발생");
 	}
+
+	@Transactional
+	public void saveMessageWithDebezium(String message) {
+
+		// 메세지 발송
+		outBoxMessageSender.sendWithDebezium(message);
+
+		// case1. 강제 에러 발생 : 에러 발생시 OutBox테이블에 데이터가 저장되지 않기에 카프카 메시지가 발송되지않음
+		// throw new RuntimeException("강제 에러 발생");
+	}
 }

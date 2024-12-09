@@ -1,0 +1,8 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api 'io.awspring.cloud:spring-cloud-aws-starter:3.0.1'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.765'
+}
