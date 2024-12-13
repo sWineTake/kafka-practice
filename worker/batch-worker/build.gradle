@@ -1,4 +1,5 @@
 dependencies {
     implementation(project(":adapter:mysql"))
+    implementation(project(":adapter:kafka"))
 
 }

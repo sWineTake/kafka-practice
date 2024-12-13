@@ -23,4 +23,6 @@ include 'worker:batch-worker'
 findProject(':worker:batch-worker')?.name = 'batch-worker'
 include 'adapter:aws'
 findProject(':adapter:aws')?.name = 'aws'
+include 'adapter:fcm'
+findProject(':adapter:fcm')?.name = 'fcm'
 

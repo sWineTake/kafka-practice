@@ -1,4 +1,5 @@
 dependencies {
     implementation(project(":adapter:kafka"))
+    implementation(project(":adapter:fcm"))
 
 }

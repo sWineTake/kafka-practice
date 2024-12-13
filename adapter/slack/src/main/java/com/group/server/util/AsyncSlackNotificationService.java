@@ -1,4 +1,4 @@
-package com.group.server.service;
+package com.group.server.util;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
