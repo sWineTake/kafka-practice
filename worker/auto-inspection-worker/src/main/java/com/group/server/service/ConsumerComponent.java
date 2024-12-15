@@ -7,6 +7,11 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import static com.group.server.config.Topic.MY_CUSTOM_CDC_TOPIC_DLT;
 import static com.group.server.config.Topic.MY_CUSTOM_OUT_BOX_TOPIC;
 
@@ -16,12 +21,12 @@ public class ConsumerComponent {
 
 	private final FcmSendComponent fcmSendComponent;
 
-	@KafkaListener(
+	/*@KafkaListener(
 		topics = {MY_CUSTOM_OUT_BOX_TOPIC},
 		groupId = "out-box-consumer-group-1",
 		containerFactory = "kafkaListenerContainerFactory",
 		concurrency = "2" // 토픽 파티션 갯수 / 서버 갯수 = concurrency
-	)
+	)*/
 	public void outBoxConsumer(ConsumerRecord<String, String> message, Acknowledgment acknowledgment) {
 		System.out.println("[OUTBOX]****************************" + message.partition());
 		System.out.println(message.value());
@@ -58,8 +63,6 @@ public class ConsumerComponent {
 				throw new IllegalArgumentException("FCM 발송실패 - 재시도");
 			});
 	}
-
-
 
 	@KafkaListener(
 		topics = {MY_CUSTOM_CDC_TOPIC_DLT},
